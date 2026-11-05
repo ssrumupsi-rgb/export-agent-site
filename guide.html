@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Export Agent Pilot Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: a narrow operations manual. Left rail of steps, one reading column, "what you should see" ledger boxes like a shipping checklist. */
+:root{
+  --bg:#f6f5f1; --panel:#ffffff; --fg:#1d2126; --muted:#5d6670; --line:#d9d6ce;
+  --accent:#0f5f8c; --accent-soft:#e3eef5;
+  --ok:#1f7a3f; --ok-soft:#e2f2e7; --warn:#9a6700; --warn-soft:#fff4d6; --bad:#b3261e; --bad-soft:#fbe4e2;
+  --sans:"IBM Plex Sans","Noto Sans KR",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#15181c; --panel:#1d2126; --fg:#e8e6e0; --muted:#a0a8b0; --line:#343a42;
+  --accent:#6fb3d9; --accent-soft:#1b2d3a; --ok:#6cc48a; --ok-soft:#163222; --warn:#e2b04a; --warn-soft:#3a2d10; --bad:#f08a82; --bad-soft:#3d1c19; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#15181c; --panel:#1d2126; --fg:#e8e6e0; --muted:#a0a8b0; --line:#343a42;
+  --accent:#6fb3d9; --accent-soft:#1b2d3a; --ok:#6cc48a; --ok-soft:#163222; --warn:#e2b04a; --warn-soft:#3a2d10; --bad:#f08a82; --bad-soft:#3d1c19; color-scheme:dark }
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15.5px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+*{box-sizing:border-box}
+a{color:var(--accent)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-block:12px;margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px))) calc(-1*max(16px,env(safe-area-inset-right,0px)));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top .brand{font-weight:600;letter-spacing:.01em}
+.top .brand small{display:block;font-weight:400;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.top .spacer{flex:1}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{background:transparent;border:0;color:var(--muted);font:inherit;font-size:13px;padding:5px 12px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.lang button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.wrap{display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px;max-width:1040px;margin:0 auto;padding-top:28px}
+nav.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);align-self:start;font-size:13.5px}
+nav.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+nav.rail a{color:var(--muted);text-decoration:none;display:block;padding:4px 8px;border-left:2px solid transparent}
+nav.rail a:hover{color:var(--fg);border-left-color:var(--line)}
+nav.rail .h{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px 8px}
+main{min-width:0;max-width:68ch}
+h1{font-size:30px;line-height:1.15;margin:0 0 6px;text-wrap:balance;font-weight:600}
+.lede{color:var(--muted);margin:0 0 28px}
+h2{font-size:21px;margin:40px 0 12px;padding-top:8px;border-top:1px solid var(--line);text-wrap:balance}
+h3{font-size:16.5px;margin:26px 0 8px}
+h3 .n{font-family:var(--mono);color:var(--accent);font-size:13px;margin-right:8px}
+p{margin:0 0 10px}
+ul,ol{margin:0 0 12px;padding-left:22px}
+li{margin-bottom:4px}
+code,.ui{font-family:var(--mono);font-size:.92em}
+.ui{background:var(--accent-soft);color:var(--fg);padding:1px 5px;border-radius:3px;white-space:nowrap}
+.see{border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--panel);padding:8px 12px;margin:10px 0 4px;font-size:14px}
+.see b{color:var(--accent);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:11.5px;display:block;margin-bottom:2px}
+.box{border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:12px 0;background:var(--panel)}
+.box.warn{background:var(--warn-soft);border-color:transparent}
+.box.bad{background:var(--bad-soft);border-color:transparent}
+.box.ok{background:var(--ok-soft);border-color:transparent}
+.box .t{font-weight:600;margin-bottom:4px}
+.pill{display:inline-block;font-size:12px;font-family:var(--mono);padding:1px 8px;border-radius:999px;border:1px solid var(--line)}
+.pill.ok{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.pill.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.pill.bad{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0 14px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tbl{overflow-x:auto}
+details{border-bottom:1px solid var(--line);padding:8px 0}
+summary{cursor:pointer;font-weight:500}
+summary:focus-visible{outline:2px solid var(--accent)}
+details p{margin-top:6px;color:var(--fg)}
+.ship{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0 16px}
+.ship div{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.ship b{display:block;font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.ship span{font-size:14px}
+.mail{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mail code{background:var(--panel);border:1px solid var(--line);padding:4px 8px;border-radius:4px;user-select:all}
+.mail button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--panel);color:var(--fg);padding:4px 10px;border-radius:4px;cursor:pointer}
+.mail button:focus-visible{outline:2px solid var(--accent)}
+.foot{color:var(--muted);font-size:13px;margin-top:40px;border-top:1px solid var(--line);padding-top:12px}
+[data-lang]{display:none}
+html[lang="en"] [data-lang="en"],html[lang="ko"] [data-lang="ko"]{display:block}
+html[lang="en"] span[data-lang="en"],html[lang="ko"] span[data-lang="ko"]{display:inline}
+@media (max-width:760px){.wrap{grid-template-columns:1fr;gap:16px}nav.rail{position:static}nav.rail ol{display:flex;flex-wrap:wrap;gap:4px 10px}nav.rail .h{display:none}h1{font-size:25px}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">Export Agent<small>Pilot portal · customer guide · v2 · 2026-10-29</small></div>
+  <div class="spacer"></div>
+  <div class="lang" role="group" aria-label="Language">
+    <button type="button" id="lang-en" aria-pressed="true">English</button>
+    <button type="button" id="lang-ko" aria-pressed="false">한국어</button>
+  </div>
+</header>
+
+<div class="wrap">
+<nav class="rail" aria-label="Sections">
+  <div class="h">Guide</div>
+  <ol>
+    <li><a href="#what">1 · What it does</a></li>
+    <li><a href="#before">2 · Before you start</a></li>
+    <li><a href="#steps">3 · Step by step</a></li>
+    <li><a href="#faq">4 · Common questions</a></li>
+    <li><a href="#not">5 · Not yet</a></li>
+    <li><a href="#help">6 · Help</a></li>
+  </ol>
+  <div class="h">Steps</div>
+  <ol>
+    <li><a href="#s0">0 Cloudflare</a></li><li><a href="#s1">1 Invite</a></li><li><a href="#s2">2 Password</a></li><li><a href="#s3">3 Log in</a></li>
+    <li><a href="#s4">4 Shipments list</a></li><li><a href="#s5">5 Upload</a></li><li><a href="#s6">6 Shipment page</a></li><li><a href="#s7">7 Sanctions hit</a></li>
+    <li><a href="#s8">8 BLOCKED</a></li><li><a href="#s9">9 E-mail draft</a></li><li><a href="#s10">10 Approve</a></li><li><a href="#s11">11 Audit log</a></li><li><a href="#s12">12 Settings</a></li>
+  </ol>
+</nav>
+
+<main>
+<div data-lang="en">
+<h1>How to use the pilot portal</h1>
+<p class="lede">Written for the person who handles export documents at your company. Every label in <span class="ui">this style</span> is the label you will see on screen.</p>
+</div>
+<div data-lang="ko">
+<h1>파일럿 포털 사용 안내</h1>
+<p class="lede">귀사에서 수출 서류를 담당하는 분을 위한 안내입니다. <span class="ui">이 모양</span>의 글자는 화면에 그대로 보이는 이름입니다.</p>
+</div>
+
+<h2 id="what"><span data-lang="en">1 · What this does for you</span><span data-lang="ko">1 · 이 포털이 하는 일</span></h2>
+<div data-lang="en">
+<p>You upload the buyer's purchase order (PO). The portal reads it, drafts a commercial invoice (CI) and packing list (PL), screens the party names against one US sanctions list, and gives you a draft e-mail to the buyer and a record of who approved what. It does not draft an order confirmation (OC).</p>
+<div class="ship">
+  <div><b>You have only the PO</b><span>The portal drafts the CI and PL as an <code>.xlsx</code> in our layout with a DRAFT watermark. Red cells stay empty for a person to fill. Your own template, numbering and bank block are not supported in this pilot.</span></div>
+  <div><b>You already have OC, CI or PL</b><span>Upload them with the PO. The portal cross-checks them against the PO and each other and lists where they disagree. Drafts are still produced; use or ignore them.</span></div>
+</div>
+<div class="box warn"><div class="t">Screening scope</div>Party names (buyer, consignee, notify party, bank) are checked against the US OFAC SDN list (or the US ITA Consolidated Screening List when enabled) by fuzzy name match. No EU, UK, UN or other lists. No address, country, vessel or ownership (50%) checks. A "no hits" result is not a sanctions clearance; destination embargo, licence need and end-use are not checked. Your company's own screening obligations are unchanged.</div>
+<div class="box"><div class="t">Where your documents go</div>Nothing you upload is sent to any AI or language model. The engine is rule-based. At most the party names leave the server, for screening, and only when the US ITA list API is enabled; in the default OFAC SDN mode the list is downloaded to the server and matched there. If we ever add AI-assisted reading, we tell you in writing before it applies to your workspace, name the provider and its retention terms, and you can decline.</div>
+</div>
+<div data-lang="ko">
+<p>바이어의 구매주문서(PO)를 올립니다. 포털이 PO를 읽고, 상업송장(CI)과 포장명세서(PL) 초안을 만들고, 당사자 이름을 미국 제재 리스트 한 곳과 대조하고, 바이어에게 보낼 메일 초안과 누가 무엇을 승인했는지 기록을 줍니다. 주문확인서(OC) 초안은 만들지 않습니다.</p>
+<div class="ship">
+  <div><b>PO만 있을 때</b><span>CI·PL 초안을 우리 양식의 <code>.xlsx</code>로 만듭니다. DRAFT 워터마크가 있고 빨간 셀은 비어 있어 사람이 채웁니다. 귀사 송장 양식·번호 체계·은행 정보란은 이번 파일럿에서 지원하지 않습니다.</span></div>
+  <div><b>OC·CI·PL이 이미 있을 때</b><span>PO와 함께 올리세요. 서로 다른 곳을 표시합니다. 초안도 함께 나오니 쓰거나 무시하면 됩니다.</span></div>
+</div>
+<div class="box warn"><div class="t">스크리닝 범위</div>당사자 이름(바이어·수하인·통지처·은행)을 미국 OFAC SDN 리스트(설정 시 US ITA Consolidated Screening List)와 이름 유사도로만 대조합니다. EU·UK·UN 등 다른 리스트, 주소·국가·선박·지분(50%) 확인은 없습니다. "no hits"는 제재 해제가 아니며, 목적지 금수·허가 필요 여부·최종 용도는 확인하지 않습니다. 귀사의 자체 스크리닝 의무는 그대로입니다.</div>
+<div class="box"><div class="t">서류는 어디로 가나</div>올린 서류는 어떤 AI·언어 모델에도 보내지지 않습니다. 규칙 기반 엔진입니다. 서버 밖으로 나가는 것은 스크리닝용 당사자 이름뿐이고, 그것도 US ITA API를 켠 경우에만 나갑니다. AI 읽기를 추가하게 되면 적용 전에 서면으로 알리고, 거절할 수 있습니다.</div>
+</div>
+
+<h2 id="before"><span data-lang="en">2 · Before you start</span><span data-lang="ko">2 · 시작 전 준비</span></h2>
+<div data-lang="en">
+<p><b>Files for one shipment</b></p>
+<ul><li>The buyer's PO. Required.</li><li>Your OC, CI and PL, if you have them.</li><li>Your item master as a CSV with an <code>item_code</code> column; an <code>hs_code</code> column fills missing HS codes. Other columns are ignored.</li></ul>
+<p><b>Formats</b></p>
+<div class="tbl"><table><tr><th>Format</th><th>Status</th><th>What to do</th></tr>
+<tr><td><code>.xlsx</code>, <code>.csv</code></td><td><span class="pill ok">supported</span></td><td>Read cell by cell in the layouts we have tested. After your company has signed the pilot agreement, upload one of your buyer's POs in the portal; within one business day we tell you which fields we read and which we miss.</td></tr>
+<tr><td>Text PDF</td><td><span class="pill warn">not supported in this pilot</span></td><td>The upload screen accepts it, but the reader does not extract reliably and a LOW row "LLM extraction unavailable" appears. Send Excel/CSV, or upload the PDF in the portal and we key it in by hand within one business day. On request, PDF upload can be switched off for your workspace.</td></tr>
+<tr><td>Scanned or photographed PDF</td><td><span class="pill bad">not readable</span></td><td>Send us the file to key in.</td></tr></table></div>
+<p>Total size per upload is shown on <span class="ui">New shipment</span> next to <span class="ui">Max total size</span>.</p>
+<p><b>Name the files</b> so the portal knows what they are: start with <code>PO_</code>, <code>OC_</code>, <code>CI_</code> or <code>PL_</code>, or put the title (for example "PURCHASE ORDER") in the first line. A file the portal cannot recognise is listed under <span class="ui">Skipped</span>.</p>
+<div class="box bad"><div class="t">Do not upload</div>Technical drawings, specifications, test reports, manuals, contracts, letters of credit, bank documents, and anything with passport or ID numbers, personal bank accounts or personal addresses beyond what the shipping documents need. Commercial documents only: PO, OC, CI, PL and the item master. Do not e-mail documents to support; use the portal upload.</div>
+<p><b>Before your invite:</b> an authorised signatory at your company and the provider both sign one acceptance record covering the Terms and the Data Processing Addendum. The person who sets a password is not accepting anything.</p>
+</div>
+<div data-lang="ko">
+<p><b>선적 1건에 필요한 파일</b></p>
+<ul><li>바이어 PO. 필수.</li><li>귀사의 OC·CI·PL (있으면).</li><li>품목 마스터 CSV: <code>item_code</code> 열 필수, <code>hs_code</code> 열이 있으면 빠진 HS 코드를 채웁니다. 다른 열은 무시합니다.</li></ul>
+<p><b>파일 형식</b></p>
+<div class="tbl"><table><tr><th>형식</th><th>상태</th><th>할 일</th></tr>
+<tr><td><code>.xlsx</code>, <code>.csv</code></td><td><span class="pill ok">지원</span></td><td>테스트한 레이아웃에서 셀 단위로 읽습니다. 파일럿 전에 바이어 PO 하나를 보내 주시면 1영업일 안에 어떤 항목을 읽고 못 읽는지 알려 드립니다.</td></tr>
+<tr><td>텍스트 PDF</td><td><span class="pill warn">이번 파일럿 미지원</span></td><td>업로드는 되지만 읽기가 불안정하고 LOW 항목 "LLM extraction unavailable"이 뜹니다. Excel/CSV로 올리거나 PDF를 보내 주시면 1영업일 안에 직접 입력합니다.</td></tr>
+<tr><td>스캔·사진 PDF</td><td><span class="pill bad">읽지 못함</span></td><td>파일을 보내 주시면 직접 입력합니다.</td></tr></table></div>
+<p>업로드 용량 제한은 <span class="ui">새 선적</span> 화면의 <span class="ui">최대 용량</span> 옆에 표시됩니다.</p>
+<p><b>파일 이름</b>은 <code>PO_</code>, <code>OC_</code>, <code>CI_</code>, <code>PL_</code>로 시작하거나 첫 줄에 서류 제목(예: "PURCHASE ORDER")이 있어야 합니다. 인식 못 한 파일은 <span class="ui">건너뜀</span>에 표시됩니다.</p>
+<div class="box bad"><div class="t">올리지 말 것</div>도면, 사양서, 시험성적서, 매뉴얼, 계약서, 신용장, 은행 서류, 여권·신분증 번호, 개인 계좌, 선적 서류에 필요한 범위를 넘는 개인 주소. 상업 서류만: PO·OC·CI·PL·품목 마스터. 서류를 지원 메일로 보내지 말고 포털에 올리세요.</div>
+<p><b>초대 전:</b> 귀사의 서명 권한자가 이용약관과 데이터 처리 부속서에 서명합니다. 비밀번호를 설정하는 사람은 아무것도 동의하는 것이 아닙니다.</p>
+</div>
+
+<h2 id="steps"><span data-lang="en">3 · Step by step</span><span data-lang="ko">3 · 단계별 안내</span></h2>
+
+<h3 id="s0"><span class="n">0</span><span data-lang="en">The Cloudflare screen</span><span data-lang="ko">Cloudflare 화면</span></h3>
+<div data-lang="en"><p>Cloudflare Access is enabled before your first invite link is issued, and the date is recorded in your acceptance record (the current test address has no such screen). Once enabled, opening the portal address first shows a Cloudflare page asking for your e-mail. Enter the e-mail your admin registered, then the one-time code Cloudflare e-mails you. This happens before the invite link and before every login on a new browser.</p></div>
+<div data-lang="ko"><p>Cloudflare Access는 첫 초대 링크 발급 전에 켜지고 그 날짜가 수락 기록에 남습니다(현재 테스트 주소에는 없음). 켜진 뒤 포털 주소를 열면 먼저 Cloudflare 페이지가 이메일을 묻습니다. 관리자가 등록한 이메일을 넣고, 메일로 온 1회용 코드를 넣으면 포털이 열립니다. 초대 링크 전과 새 브라우저의 로그인 전마다 나옵니다.</p></div>
+
+<h3 id="s1"><span class="n">1</span><span data-lang="en">Open your invite link</span><span data-lang="ko">초대 링크 열기</span></h3>
+<div data-lang="en"><p>Your workspace admin gives you a one-time link by e-mail or chat. The portal itself never sends e-mail. The link works once and expires after 72 hours. If it has expired, ask your admin for a <span class="ui">New link</span>.</p>
+<div class="see"><b>What you should see</b>A page titled <span class="ui">Set your password</span> with your e-mail address under it.</div></div>
+<div data-lang="ko"><p>관리자가 1회용 링크를 메일이나 메신저로 보냅니다. 포털은 메일을 보내지 않습니다. 링크는 한 번만, 72시간 안에 씁니다. 만료되면 <span class="ui">새 링크</span>를 요청하세요.</p>
+<div class="see"><b>보여야 하는 화면</b><span class="ui">비밀번호 설정</span>과 내 이메일.</div></div>
+
+<h3 id="s2"><span class="n">2</span><span data-lang="en">Set your password</span><span data-lang="ko">비밀번호 설정</span></h3>
+<div data-lang="en"><p>Type at least 10 characters in <span class="ui">Password</span> and again in <span class="ui">Password (again)</span>. Click <span class="ui">Save</span>. If they differ: "The two passwords differ." If the link was used: "This link is invalid, expired or already used."</p>
+<div class="see"><b>What you should see</b>The <span class="ui">Log in</span> page with "Password set. You can log in now."</div></div>
+<div data-lang="ko"><p><span class="ui">비밀번호</span>에 10자 이상, <span class="ui">비밀번호 (확인)</span>에 한 번 더 입력하고 <span class="ui">저장</span>. 다르면 "두 비밀번호가 다릅니다.", 이미 쓴 링크면 "링크가 잘못되었거나 만료되었거나 이미 사용되었습니다."</p>
+<div class="see"><b>보여야 하는 화면</b><span class="ui">로그인</span> 페이지와 "비밀번호가 설정되었습니다. 로그인하세요."</div></div>
+
+<h3 id="s3"><span class="n">3</span><span data-lang="en">Log in</span><span data-lang="ko">로그인</span></h3>
+<div data-lang="en"><p>Enter <span class="ui">E-mail</span> and <span class="ui">Password</span>, click <span class="ui">Log in</span>. A wrong entry shows "E-mail or password is wrong."; after five failed attempts: "Too many failed attempts. Try again in 15 minutes." No self sign-up and no password-reset e-mail; ask your admin for a new link.</p>
+<div class="see"><b>What you should see</b>The <span class="ui">Shipments</span> list with your workspace name at the top.</div></div>
+<div data-lang="ko"><p><span class="ui">이메일</span>·<span class="ui">비밀번호</span> 입력 후 <span class="ui">로그인</span>. 5회 실패 시 15분 대기. 직접 가입·재설정 메일은 없습니다. 관리자에게 새 링크를 요청하세요.</p>
+<div class="see"><b>보여야 하는 화면</b><span class="ui">선적 목록</span>과 워크스페이스 이름.</div></div>
+
+<h3 id="s4"><span class="n">4</span><span data-lang="en">Read the shipments list</span><span data-lang="ko">선적 목록 읽기</span></h3>
+<div data-lang="en"><p><span class="ui">Shipments</span> shows every upload, newest first. Columns: <span class="ui">Shipment</span>, <span class="ui">Uploaded</span>, <span class="ui">By</span>, <span class="ui">Files</span>, <span class="ui">Status</span>, <span class="ui">Discrepancies</span>, <span class="ui">Gate</span>, <span class="ui">Drafts</span>, <span class="ui">Approval</span>.</p>
+<div class="tbl"><table><tr><th>Column</th><th>Values</th></tr>
+<tr><td>Status</td><td>processing · done · error</td></tr>
+<tr><td>Discrepancies</td><td>H, M, L counts</td></tr>
+<tr><td>Gate</td><td><span class="pill ok">no hits</span> <span class="pill warn">needs human disposition</span> <span class="pill bad">blocked</span> (a hit recorded as a true match)</td></tr>
+<tr><td>Drafts</td><td>DRAFT or BLOCKED</td></tr>
+<tr><td>Approval</td><td>approved · not approved</td></tr></table></div>
+<p>Click the shipment code to open it. There is no order-reference column yet: note the shipment code against your order number yourself. A corrected re-upload is a new row; the old row stays.</p>
+<div class="see"><b>What you should see on first visit</b>"No shipments yet. Upload the first set of documents."</div></div>
+<div data-lang="ko"><p>열: <span class="ui">선적</span>, <span class="ui">업로드</span>, <span class="ui">담당</span>, <span class="ui">파일</span>, <span class="ui">상태</span>, <span class="ui">불일치</span>, <span class="ui">게이트</span>, <span class="ui">초안</span>, <span class="ui">승인</span>. 상태는 처리 중·완료·오류, 게이트는 <span class="pill ok">no hits</span> <span class="pill warn">needs human disposition</span> <span class="pill bad">차단</span>, 초안은 DRAFT 또는 BLOCKED, 승인은 승인됨·미승인. 주문 참조 열은 아직 없으니 선적 코드를 주문번호와 직접 대응해 두세요. 고친 재업로드는 새 줄이 됩니다.</p>
+<div class="see"><b>처음 화면</b>"아직 선적이 없습니다. 첫 서류 묶음을 올려 보세요."</div></div>
+
+<h3 id="s5"><span class="n">5</span><span data-lang="en">Upload a new shipment</span><span data-lang="ko">새 선적 올리기</span></h3>
+<div data-lang="en"><p>Click <span class="ui">New shipment</span>. Drag files onto <span class="ui">Drop files here or choose below.</span> or use the file button. Check the names in the list. Click <span class="ui">Upload and run</span>.</p>
+<p>Errors you may see: "No accepted file in the upload (.xlsx, .csv, .pdf only).", "Upload is larger than the limit.", "A file's content does not match its extension.", "This workspace is paused. Ask your admin."</p>
+<div class="see"><b>What you should see</b>A <span class="ui">Processing…</span> page that refreshes every few seconds. Run time on customer files is not measured yet; our synthetic sample set finishes in seconds to a few minutes. A run can take longer when the sanctions list file is refreshed (it is refreshed when older than 7 days). The result shows which list was used (<span class="ui">Screening source</span>) but not its publication date, so re-screen on the day you ship.</div></div>
+<div data-lang="ko"><p><span class="ui">새 선적</span> → <span class="ui">여기에 파일을 끌어다 놓거나 아래에서 선택하세요.</span> → 이름 확인 → <span class="ui">업로드하고 실행</span>. 오류 문구: "올릴 수 있는 파일이 없습니다 (.xlsx, .csv, .pdf만).", "업로드 용량이 제한을 넘습니다.", "파일 내용이 확장자와 다릅니다.", "이 워크스페이스는 일시 중지 상태입니다. 관리자에게 문의하세요."</p>
+<div class="see"><b>보여야 하는 화면</b>몇 초마다 새로고침되는 <span class="ui">처리 중…</span>. 고객 서류 기준 소요 시간은 아직 측정하지 않았습니다. 리스트 발행일은 표시되지 않으니 선적 당일에 다시 확인하세요.</div></div>
+
+<h3 id="s6"><span class="n">6</span><span data-lang="en">Read the shipment page</span><span data-lang="ko">선적 화면 읽기</span></h3>
+<div data-lang="en"><p>Six numbered sections, top to bottom.</p>
+<div class="tbl"><table><tr><th>#</th><th>Section</th><th>What to check</th></tr>
+<tr><td>1</td><td><span class="ui">Documents read</span></td><td>One row per file: Type, File, Number, Date, Items, SHA-256 (first 12). Confirm each file was recognised as the right type and compare number, date and item count with the original. Unused files are under <span class="ui">Skipped (unsupported or unrecognised)</span>. <span class="ui">Pairs cross-checked</span> lists which documents were compared.</td></tr>
+<tr><td>2</td><td><span class="ui">Discrepancies</span></td><td>Every place two documents disagree. HIGH = money or contract terms differ, drafts blocked. MEDIUM = needs a check. LOW = information. Filter with <span class="ui">Show</span>.</td></tr>
+<tr><td>3</td><td><span class="ui">Compliance gate</span></td><td><span class="ui">3a. Items without HS code</span>: items with no HS code anywhere; the portal never proposes one. <span class="ui">3b. Restricted-party screening</span>: each Party, Roles, Hits, Best match. <span class="ui">Screening source</span> names the list used; the publication date is not shown. Pill: <span class="pill ok">no hits</span> <span class="pill warn">needs human disposition</span> <span class="pill ok">disposed</span> <span class="pill bad">blocked</span>. This gate does not check destination embargoes, licence requirements, end use or end user.</td></tr>
+<tr><td>4</td><td><span class="ui">Drafts (CI / PL)</span></td><td>Download links. Yellow banner = DRAFT, red banner = BLOCKED. See step 8.</td></tr>
+<tr><td>5</td><td><span class="ui">Buyer e-mail draft</span></td><td>See step 9.</td></tr>
+<tr><td>6</td><td><span class="ui">Approval checklist</span></td><td>See step 10.</td></tr></table></div></div>
+<div data-lang="ko"><p>위에서 아래로 번호가 붙은 6개 구역입니다.</p>
+<div class="tbl"><table><tr><th>#</th><th>구역</th><th>확인할 것</th></tr>
+<tr><td>1</td><td><span class="ui">읽은 서류</span></td><td>종류, 파일, 번호, 날짜, 품목 수, SHA-256 (앞 12자리). 원본과 비교합니다. 못 쓴 파일은 <span class="ui">건너뜀 (지원하지 않거나 인식 못 함)</span>.</td></tr>
+<tr><td>2</td><td><span class="ui">불일치</span></td><td>심각도 HIGH(돈·계약 조건, 초안 차단)·MEDIUM·LOW. <span class="ui">보기</span>로 거릅니다.</td></tr>
+<tr><td>3</td><td><span class="ui">컴플라이언스 게이트</span></td><td><span class="ui">3a. HS 코드 없는 품목</span>(사람이 정함), <span class="ui">3b. 제재 리스트 스크리닝</span>의 당사자·역할·Hit·가장 비슷한 항목. <span class="ui">스크리닝 출처</span>에 사용한 리스트가 보이고 발행일은 표시되지 않습니다. 표시: no hits · needs human disposition · 판정 완료 · <span class="pill bad">차단</span>. 목적지 금수·허가·최종 용도는 확인하지 않습니다.</td></tr>
+<tr><td>4</td><td><span class="ui">초안 (CI / PL)</span></td><td>다운로드 링크. 노란 배너 = DRAFT, 빨간 배너 = BLOCKED. 8단계 참고.</td></tr>
+<tr><td>5</td><td><span class="ui">바이어 메일 초안</span></td><td>9단계 참고.</td></tr>
+<tr><td>6</td><td><span class="ui">승인 체크리스트</span></td><td>10단계 참고.</td></tr></table></div></div>
+
+<h3 id="s7"><span class="n">7</span><span data-lang="en">Handle a sanctions hit</span><span data-lang="ko">제재 리스트 hit 처리</span></h3>
+<div data-lang="en"><p>The screen says "A hit is never cleared automatically." Each hit has its own form. In SDN mode the portal shows only list name, type, program and score, so compare using the public list itself: open OFAC Sanctions List Search (or the trade.gov CSL search) and check country, address and aliases of the listed entry against the party on your document.</p>
+<p>Choose <span class="ui">false positive</span> if it is a different company or person, <span class="ui">true match</span> if it is the same one. Type your name in <span class="ui">Recorded by</span>. Write your reason in the field whose placeholder reads "Reason (e.g. different country, different business, address checked)"; after saving it is shown as <span class="ui">Note</span>. Click <span class="ui">Record disposition</span>.</p>
+<div class="box bad"><div class="t">"true match" means the shipment cannot be approved.</div>The gate pill turns to <span class="pill bad">blocked</span>, the approval section shows "A confirmed sanctions match blocks approval. Contact support.", and the Approve button stays off. If an approval is submitted anyway, the server refuses it and writes an <code>approval_refused</code> row to the audit log. Stop, escalate inside your company and contact support. The portal gives no legal clearance either way.</div>
+<div class="see"><b>What you should see</b>"Disposition recorded in the audit log." and the hit marked with your decision and time. When every hit is recorded and none is a true match, the gate pill shows <span class="pill ok">disposed</span>. To change a decision, open <span class="ui">Record again</span>; recording "false positive" over an earlier "true match" lifts the block, and the earlier decision stays in the audit log.</div></div>
+<div data-lang="ko"><p>"Hit은 자동으로 해제되지 않습니다." SDN 모드에서는 리스트 이름·종류·프로그램·점수만 보이므로 OFAC Sanctions List Search(또는 trade.gov CSL 검색)에서 그 항목의 국가·주소·별칭을 직접 확인한 뒤 판정합니다. 다른 곳이면 <span class="ui">오탐 (false positive)</span>, 같은 곳이면 <span class="ui">일치 (true match)</span>. <span class="ui">판정자</span>에 이름, 입력란("근거 (예: 다른 나라, 다른 업종, 주소 확인)", 저장 후 <span class="ui">메모</span>로 표시)에 근거를 적고 <span class="ui">판정 기록</span>.</p>
+<div class="box bad"><div class="t">"일치 (true match)"면 그 선적은 승인할 수 없습니다.</div>게이트가 <span class="pill bad">차단</span>으로 바뀌고 승인 칸에 "제재 대상 일치가 확인되어 승인할 수 없습니다. 지원팀에 연락하세요."가 보이며 승인 버튼이 켜지지 않습니다. 그래도 제출하면 서버가 거부합니다. 멈추고 회사 안에서 보고한 뒤 지원 메일로 연락하세요.</div>
+<div class="see"><b>보여야 하는 화면</b>"판정이 감사 기록에 추가되었습니다." true match가 없고 모두 기록되면 게이트가 <span class="ui">판정 완료</span>. 바꾸려면 <span class="ui">다시 기록</span>; 이전 판정도 감사 기록에 남습니다.</div></div>
+
+<h3 id="s8"><span class="n">8</span><span data-lang="en">What BLOCKED means and how to clear it</span><span data-lang="ko">BLOCKED의 뜻과 해결</span></h3>
+<div data-lang="en"><p>BLOCKED = a HIGH discrepancy remains, so the drafts must not be used. The red banner says "files were produced but must not be used. The first row states the reason." Files are downloadable with <code>BLOCKED_</code> in the name so you can see what went wrong.</p>
+<p>To clear it, fix the source documents and upload the corrected set as a new shipment. There is no "re-run" button. Re-uploads of the same order are free. When no HIGH issue remains you get <code>DRAFT_</code> files with the watermark "DRAFT - requires approval". Red cells are empty and must be filled by a person.</p></div>
+<div data-lang="ko"><p>HIGH 불일치가 남아 초안을 쓰면 안 된다는 뜻입니다. "파일은 만들었지만 쓰면 안 됩니다. 첫 줄에 차단 사유가 있습니다." <code>BLOCKED_</code> 파일을 내려받아 원인을 볼 수 있습니다. 원본을 고쳐 새 선적으로 올립니다. 재실행 버튼은 없고, 같은 주문의 재업로드는 무료입니다. HIGH가 없으면 <code>DRAFT_</code> 파일("DRAFT - requires approval")을 받습니다. 빨간 셀은 사람이 채웁니다.</p></div>
+
+<h3 id="s9"><span class="n">9</span><span data-lang="en">Use the buyer e-mail draft</span><span data-lang="ko">바이어 메일 초안</span></h3>
+<div data-lang="en"><p>Section 5 lists only HIGH and MEDIUM differences between the PO and your OC, the points buyer and seller disagree on. If you uploaded no OC, or the documents agree, the draft contains "(No open points - all documents agree.)" and you can ignore it. Label: "(not sent · copy, edit and send it yourself)". <span class="ui">Copy</span> copies the text; <span class="ui">Edit here</span> changes it on screen only. Paste into your own e-mail program and send it yourself.</p>
+<div class="see"><b>What you should see</b>"Copied." after clicking <span class="ui">Copy</span>.</div></div>
+<div data-lang="ko"><p>PO와 OC 사이의 HIGH·MEDIUM 차이만 들어갑니다. OC를 올리지 않았거나 차이가 없으면 "(No open points - all documents agree.)" 한 줄이 있으니 무시해도 됩니다. "(보내지 않습니다 · 복사해서 고친 뒤 직접 보냅니다)". <span class="ui">복사</span>, <span class="ui">여기서 고치기</span>(화면에서만). 직접 보냅니다.</p>
+<div class="see"><b>보여야 하는 화면</b><span class="ui">복사</span> 뒤 "복사했습니다."</div></div>
+
+<h3 id="s10"><span class="n">10</span><span data-lang="en">Approve</span><span data-lang="ko">승인</span></h3>
+<div data-lang="en"><div class="box warn"><div class="t">Approve only DRAFT shipments.</div>Items marked <span class="ui">required</span> are the HIGH discrepancies ("Resolve HIGH: …") and exist only on BLOCKED shipments. The portal lets you tick them and approve so that a deliberate override is documented, not to make BLOCKED drafts usable. During the pilot, do not approve a BLOCKED shipment without telling us.</div>
+<p>The other items are reminders: <span class="ui">Review MEDIUM</span>, <span class="ui">Assign HS code</span>, <span class="ui">Screening disposition</span>, the buyer e-mail, the drafts. Type your name in <span class="ui">Approver name</span>; this is a label, the identity recorded is your login e-mail. <span class="ui">Approve</span> turns on only when every required item is ticked, every hit has a disposition, no disposition is a true match, and a name is entered. Otherwise: "Cannot approve: tick every HIGH item and record a disposition for every hit."</p>
+<p>Approval is written to the audit log only. Nothing is sent to the buyer, a forwarder or any authority. Remove the watermark yourself after approval.</p>
+<div class="see"><b>What you should see</b>"Approval recorded in the audit log. Nothing was sent." and a green <span class="ui">Approved</span> banner with your name and time.</div></div>
+<div data-lang="ko"><div class="box warn"><div class="t">DRAFT 선적만 승인합니다.</div><span class="ui">필수</span> 항목(HIGH)은 BLOCKED 선적에만 있으며, 의도적 예외를 기록하기 위한 것이지 BLOCKED 초안을 쓰라는 뜻이 아닙니다. 파일럿 중 BLOCKED 승인은 우리에게 알린 뒤에만.</div>
+<p>나머지는 알림 항목입니다: <span class="ui">MEDIUM 검토</span>, <span class="ui">HS 코드 지정</span>, <span class="ui">스크리닝 판정</span>, 메일 초안, 초안 파일. <span class="ui">승인자 이름</span>은 표시용이고 기록되는 신원은 로그인 이메일입니다. <span class="ui">승인</span>은 필수 항목 체크, 모든 hit 판정, true match 없음, 이름 입력일 때만 켜집니다. 부족하면 "승인할 수 없습니다. HIGH 항목을 모두 체크하고 모든 hit에 판정을 기록해야 합니다." 승인은 감사 기록에만 남고 아무것도 전송되지 않습니다. 워터마크는 승인 후 직접 지웁니다.</p>
+<div class="see"><b>보여야 하는 화면</b>"승인이 감사 기록에 추가되었습니다. 아무것도 전송되지 않았습니다."와 초록 <span class="ui">승인됨</span> 배너.</div></div>
+
+<h3 id="s11"><span class="n">11</span><span data-lang="en">Check the audit log</span><span data-lang="ko">감사 기록</span></h3>
+<div data-lang="en"><p><span class="ui">Audit log</span> shows your workspace only, newest first, append-only: <span class="ui">Time</span>, <span class="ui">User</span>, <span class="ui">Action</span>, <span class="ui">Run</span>, <span class="ui">Detail</span>. Actions include login, logout, password_set, upload, run_finished, run_failed, download, disposition, approval and approval_refused. Entries are not deleted during the pilot; afterwards they are kept only in pseudonymised form with document contents removed (see your agreement).</p></div>
+<div data-lang="ko"><p><span class="ui">감사 기록</span>: <span class="ui">시각</span>, <span class="ui">사용자</span>, <span class="ui">동작</span>, <span class="ui">실행</span>, <span class="ui">내용</span>. 파일럿 중에는 지우지 않고, 파일럿 뒤에는 서류 내용을 뺀 가명 처리 형태로만 보관합니다(계약 참조).</p></div>
+
+<h3 id="s12"><span class="n">12</span><span data-lang="en">Settings and language</span><span data-lang="ko">설정과 언어</span></h3>
+<div data-lang="en"><p><span class="ui">Settings</span> has three cards: <span class="ui">Users in this workspace</span> (E-mail, Role, Created, Last login or "invite pending"), <span class="ui">Data handling</span> (where files are stored and what leaves the server), and <span class="ui">What this portal does not do</span>. Switch language with <span class="ui">한국어</span> / <span class="ui">English</span> at the top right; discrepancy notes, the e-mail draft and the report stay in English.</p></div>
+<div data-lang="ko"><p>카드 3개: <span class="ui">이 워크스페이스의 사용자</span>, <span class="ui">데이터 처리</span>, <span class="ui">이 포털이 하지 않는 것</span>. 오른쪽 위 <span class="ui">한국어</span>/<span class="ui">English</span>. 불일치 설명·메일 초안·리포트는 영어입니다.</p></div>
+
+<h2 id="faq"><span data-lang="en">4 · Common questions</span><span data-lang="ko">4 · 자주 묻는 질문</span></h2>
+<div data-lang="en">
+<details><summary>A number in "Documents read" or "Discrepancies" is wrong.</summary><p>Do not approve. Check the original. If the file was a PDF, upload the <code>.xlsx</code>/<code>.csv</code> instead or send us the PDF to key in. If the file is correct and the portal is still wrong, e-mail us the shipment code.</p></details>
+<details><summary>My file was "Skipped" or shows zero items.</summary><p>Usually a PDF, a scan, or a layout we have not tested. Upload the spreadsheet itself, or send us one example so we can check the layout.</p></details>
+<details><summary>A hit is clearly a different company.</summary><p>Record it yourself: "false positive", your name, a reason someone else can check later. Hits are common for short or generic names. We never clear a hit for you.</p></details>
+<details><summary>Who can see my data?</summary><p>Users invited to your workspace, and the pilot operator. Pilot data is stored on a computer under the operator's sole control at the operator's premises in South Korea (not a data centre), reachable only through a Cloudflare tunnel, with Cloudflare Access enabled before your first invite. Encryption at rest is confirmed to you in writing before your first upload. A cloud region option is a decision pending; any move needs 14 days' e-mail notice to your signatory. Files are never mixed with another customer's, never used to train anything, and never sent to a language model. Sub-processors: Cloudflare (network tunnel; login gate once enabled), the US OFAC / ITA list source (party names only, in CSL mode), and Google (Gmail support mailbox until a domain mailbox exists; Google Forms for the request form; your browser also loads the portal's font from Google Fonts). Any addition is notified by e-mail 14 days before use.</p></details>
+<details><summary>Can the portal send e-mail or documents for me?</summary><p>No. No outgoing e-mail at all, not even invite links.</p></details>
+<details><summary>I uploaded the wrong file.</summary><p>The run completes; the results are not useful. Upload the correct set as a new shipment, ignore the old one, do not approve it. The old row stays in the list and the audit log.</p></details>
+<details><summary>Can I delete a shipment or my workspace?</summary><p>Not from the portal; there is no delete button, so the audit trail stays complete. For 30 days after the pilot ends (the Return Window) you can ask for every file back, including your audit log. The operator deletes your workspace (documents, outputs, database rows) at the end of that window, or earlier on request; backup copies are purged within 60 days of deletion; the audit log is kept afterwards only if you instruct it, in pseudonymised form, and you can withdraw that instruction. You receive written confirmation listing what was deleted and when. A self-service "delete workspace" function is planned, not available today.</p></details>
+<details><summary>How long does a review take?</summary><p>The pilot is staffed by one person. Our target for a human review and reply is one business day; a target, not a guarantee. Put "urgent" in the subject line when needed.</p></details>
+<details><summary>Can two people from my company use it?</summary><p>Yes; your admin invites them to the same workspace. All users see the same shipments. There are no preparer/approver roles yet; the audit log records which login did what.</p></details>
+<details><summary>What does "Screening source" mean?</summary><p>The list the run used (not its publication date). "No hits, but screening did not complete." means the check failed: upload again to re-screen before you approve. Re-screen on the day you ship; the list changes several times a week.</p></details>
+<details><summary>What happens to my files if the pilot stops?</summary><p>You have 30 days to take every file back (the Return Window). The workspace is then deleted, backup copies within 60 days, and you get written confirmation once deletion is complete.</p></details>
+</div>
+<div data-lang="ko">
+<details><summary>"읽은 서류"나 "불일치"의 숫자가 틀립니다.</summary><p>승인하지 마세요. 원본을 확인하세요. PDF였다면 <code>.xlsx</code>/<code>.csv</code>로 다시 올리거나 PDF를 보내 주세요. 파일이 맞는데도 틀리면 선적 코드를 메일로 알려 주세요.</p></details>
+<details><summary>파일이 "건너뜀"이거나 품목이 0개입니다.</summary><p>대개 PDF, 스캔, 또는 테스트하지 않은 레이아웃입니다. 스프레드시트 원본을 올리거나 예시 하나를 보내 주세요.</p></details>
+<details><summary>Hit이 분명히 다른 회사입니다.</summary><p>직접 기록하세요: "오탐", 이름, 나중에 다른 사람이 확인할 수 있는 근거. 짧거나 흔한 이름은 hit이 자주 납니다. 우리는 대신 해제하지 않습니다.</p></details>
+<details><summary>누가 내 데이터를 볼 수 있나요?</summary><p>워크스페이스에 초대된 사용자와 파일럿 운영자. 파일럿 데이터는 한국에 있는 운영자 거주지의, 운영자만 접근하는 컴퓨터(데이터센터 아님)에 보관되며 Cloudflare 터널로만 접속되고, 첫 초대 전에 Cloudflare Access를 켭니다. 저장 암호화 여부는 첫 업로드 전에 서면으로 확인해 드립니다. 클라우드 리전 옵션은 결정 대기 중이며, 옮길 때는 서명자에게 14일 전 메일로 알립니다. 다른 고객과 섞이지 않고, 학습에 쓰지 않으며, 언어 모델에 보내지 않습니다. 하위 처리자: Cloudflare, 미국 OFAC/ITA 리스트 출처(CSL 모드에서 당사자 이름만), Google(도메인 메일함이 생길 때까지 Gmail 지원 메일함, 브라우저가 Google Fonts를 불러옴). 추가 시 사전에 서면 통지합니다.</p></details>
+<details><summary>포털이 대신 메일이나 서류를 보내 주나요?</summary><p>아니요. 초대 링크조차 보내지 않습니다.</p></details>
+<details><summary>잘못된 파일을 올렸습니다.</summary><p>실행은 끝나지만 결과는 쓸모없습니다. 올바른 묶음을 새 선적으로 올리고 이전 것은 승인하지 마세요. 이전 줄은 목록과 감사 기록에 남습니다.</p></details>
+<details><summary>선적이나 워크스페이스를 지울 수 있나요?</summary><p>포털에서는 안 됩니다(삭제 버튼 없음). 파일럿 종료 후 30일(반환 기간) 동안 모든 파일을 돌려받을 수 있고, 그 기간이 끝나면(또는 요청 시 더 일찍) 운영자가 워크스페이스를 삭제하며, 백업은 삭제 후 60일 안에 지웁니다. 감사 기록은 귀사가 지시한 경우에만 가명 처리 형태로 남기고, 지시는 철회할 수 있습니다. 무엇을 언제 지웠는지 서면으로 확인해 드립니다. 자체 삭제 기능은 계획 중입니다.</p></details>
+<details><summary>검토는 얼마나 걸리나요?</summary><p>파일럿은 한 사람이 운영합니다. 사람 검토·회신 목표는 1영업일이며 보장은 아닙니다. 급하면 제목에 "urgent"를 적어 주세요.</p></details>
+<details><summary>우리 회사 두 사람이 같이 쓸 수 있나요?</summary><p>네. 관리자가 같은 워크스페이스에 초대합니다. 모두 같은 선적을 봅니다. 작성자/승인자 역할 구분은 아직 없고, 감사 기록이 어느 로그인이 무엇을 했는지 남깁니다.</p></details>
+<details><summary>"스크리닝 출처"가 무슨 뜻인가요?</summary><p>그 실행에 쓴 리스트(발행일 아님). "Hit 없음, 단 스크리닝 미완료"는 확인이 실패한 것이니 승인 전에 다시 올리세요. 리스트는 주에 몇 번 바뀌니 선적 당일에 다시 확인하세요.</p></details>
+<details><summary>파일럿이 멈추면 내 파일은요?</summary><p>30일 동안(반환 기간) 모든 파일을 돌려받을 수 있습니다. 그 뒤 워크스페이스를 삭제하고 백업은 60일 안에 지우며, 삭제가 끝나면 서면으로 확인합니다.</p></details>
+</div>
+
+<h2 id="not"><span data-lang="en">5 · What this does not do (yet)</span><span data-lang="ko">5 · 아직 하지 않는 것</span></h2>
+<div data-lang="en"><ul>
+<li>It does not file a customs or export declaration.</li>
+<li>It does not create or check a bill of lading, certificate of origin, dangerous-goods declaration or SDS.</li>
+<li>It does not draft an order confirmation.</li>
+<li>It does not assign HS codes; it only flags items without one.</li>
+<li>It does not check EU, UK, UN or any non-US list, ownership (50% rule), destination embargoes, licence requirements or end use. A hit disposition is your company's record, not a legal opinion.</li>
+<li>It does not send e-mails or documents anywhere.</li>
+<li>It does not read PDFs in this pilot (text or scanned); it does not use your own templates.</li>
+<li>It does not use any AI or language model.</li></ul></div>
+<div data-lang="ko"><ul>
+<li>수출신고·세관 신고를 하지 않습니다. B/L·원산지증명서·위험물 신고서·SDS를 만들거나 대조하지 않습니다.</li>
+<li>주문확인서(OC) 초안을 만들지 않습니다.</li>
+<li>HS 코드를 정하지 않습니다. 없는 품목을 표시만 합니다.</li>
+<li>EU·UK·UN 등 미국 외 리스트, 지분(50%), 목적지 금수, 허가 필요 여부, 최종 용도를 확인하지 않습니다. Hit 판정은 귀사의 기록이지 법률 의견이 아닙니다.</li>
+<li>메일이나 서류를 어디에도 보내지 않습니다.</li>
+<li>이번 파일럿에서 PDF를 읽지 않습니다(텍스트형·스캔 모두). 귀사 양식을 쓰지 않습니다.</li>
+<li>AI·언어 모델을 쓰지 않습니다.</li></ul></div>
+
+<h2 id="help"><span data-lang="en">6 · Need help</span><span data-lang="ko">6 · 문의</span></h2>
+<div data-lang="en"><p>E-mail us with the shipment code and a short description. A domain address will replace this one; you will be told in writing. Do not attach documents; upload them in the portal.</p></div>
+<div data-lang="ko"><p>선적 코드와 짧은 설명을 메일로 보내 주세요. 도메인 주소로 바뀌면 서면으로 알립니다. 서류는 첨부하지 말고 포털에 올리세요.</p></div>
+<div class="mail"><code id="mail">exportagent.official@gmail.com</code><button type="button" id="copy-mail"><span data-lang="en">Copy</span><span data-lang="ko">복사</span></button><span id="copied" hidden><span data-lang="en">Copied.</span><span data-lang="ko">복사했습니다.</span></span></div>
+
+<p class="foot"><span data-lang="en">Pilot guide v2, 2026-10-29. Labels match portal build of the same date. Screening scope, data handling and limits are stated identically in the portal's Settings page.</span><span data-lang="ko">파일럿 안내 v2, 2026-10-29. 화면 이름은 같은 날짜의 포털 빌드와 일치합니다.</span></p>
+</main>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  function setLang(l){root.setAttribute('lang',l);
+    document.getElementById('lang-en').setAttribute('aria-pressed',l==='en'?'true':'false');
+    document.getElementById('lang-ko').setAttribute('aria-pressed',l==='ko'?'true':'false');
+    try{localStorage.setItem('ea-guide-lang',l)}catch(e){}}
+  var saved='en'; try{saved=localStorage.getItem('ea-guide-lang')||'en'}catch(e){}
+  setLang(saved==='ko'?'ko':'en');
+  document.getElementById('lang-en').addEventListener('click',function(){setLang('en')});
+  document.getElementById('lang-ko').addEventListener('click',function(){setLang('ko')});
+  var btn=document.getElementById('copy-mail'),note=document.getElementById('copied'),mail=document.getElementById('mail');
+  btn.addEventListener('click',function(){
+    var done=function(){note.hidden=false;setTimeout(function(){note.hidden=true},2000)};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(mail.textContent).then(done,function(){select()})}else{select()}
+    function select(){var r=document.createRange();r.selectNodeContents(mail);var s=window.getSelection();s.removeAllRanges();s.addRange(r)}
+  });
+})();
+</script>
+</body>
+</html>

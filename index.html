@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Export Agent Pilot</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Source+Sans+3:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap">
+<style>
+/* Layout: a plain B2B product page. One column of short sections, a document-ledger motif (ruled rows, mono reference codes), limits stated as prominently as features. */
+:root{
+  --bg:#f7f7f4; --panel:#ffffff; --fg:#191c20; --muted:#5a6370; --line:#d6d8d2; --rule:#b9bcb4;
+  --accent:#1b5e3f; --accent-soft:#e4efe8; --warn-soft:#fbf1d8; --warn:#7a5a00; --bad-soft:#f8e3e0; --bad:#9a2c25;
+  --serif:"Source Serif 4",Georgia,serif; --sans:"Source Sans 3",system-ui,sans-serif; --mono:"Source Code Pro",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#141619; --panel:#1c1f24; --fg:#e7e6e1; --muted:#9aa3ad; --line:#30353c; --rule:#454b53;
+  --accent:#7fc8a2; --accent-soft:#17302a; --warn-soft:#3a2f12; --warn:#e6c35c; --bad-soft:#3c1d1a; --bad:#f09088; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#141619; --panel:#1c1f24; --fg:#e7e6e1; --muted:#9aa3ad; --line:#30353c; --rule:#454b53;
+  --accent:#7fc8a2; --accent-soft:#17302a; --warn-soft:#3a2f12; --warn:#e6c35c; --bad-soft:#3c1d1a; --bad:#f09088; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16.5px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px}
+a{color:var(--accent)}
+header.nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding-block:14px;border-bottom:1px solid var(--line);max-width:960px;margin:0 auto;font-size:14.5px}
+header.nav .brand{font-family:var(--serif);font-weight:600;font-size:19px;margin-right:auto}
+header.nav a{color:var(--muted);text-decoration:none}
+header.nav a:hover{color:var(--fg)}
+header.nav a.cta{color:var(--accent);font-weight:600}
+main{max-width:960px;margin:0 auto}
+.hero{padding-block:48px 28px;max-width:70ch}
+.eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4.2vw,40px);line-height:1.15;margin:0 0 16px;text-wrap:balance}
+.hero p{font-size:18px;margin:0 0 14px;max-width:62ch}
+.hero .who{color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{display:inline-block;padding:10px 18px;border-radius:4px;text-decoration:none;font-weight:600;border:1px solid var(--accent)}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.secondary{color:var(--accent);background:transparent}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section{padding-block:34px;border-top:1px solid var(--rule)}
+section h2{font-family:var(--serif);font-weight:600;font-size:26px;margin:0 0 6px;text-wrap:balance}
+section .sub{color:var(--muted);margin:0 0 18px;max-width:66ch}
+p{margin:0 0 10px;max-width:70ch}
+ul,ol{margin:0 0 12px;padding-left:22px;max-width:70ch}
+li{margin-bottom:5px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px 18px;min-width:0}
+.card h3{margin:0 0 8px;font-size:17px}
+.card.warn{background:var(--warn-soft);border-color:transparent}
+.card.bad{background:var(--bad-soft);border-color:transparent}
+.ledger{border-top:1px solid var(--rule);margin-top:8px;max-width:72ch}
+.ledger .row{display:grid;grid-template-columns:48px minmax(0,1fr);gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.ledger .n{font-family:var(--mono);color:var(--accent);font-size:14px;padding-top:3px}
+.ledger b{display:block;margin-bottom:2px}
+.ledger span{color:var(--muted);font-size:15px}
+table{border-collapse:collapse;width:100%;font-size:15px;margin:8px 0 12px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tbl{overflow-x:auto}
+.pill{display:inline-block;font-family:var(--mono);font-size:12px;padding:1px 8px;border-radius:999px;border:1px solid var(--line)}
+.pill.ok{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.pill.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.pill.bad{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+.scope{background:var(--panel);border-left:3px solid var(--accent);padding:12px 16px;margin:12px 0;max-width:72ch;font-size:15.5px}
+.mail{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.mail code{font-family:var(--mono);background:var(--panel);border:1px solid var(--line);padding:4px 8px;border-radius:4px;user-select:all}
+.mail button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--panel);color:var(--fg);padding:4px 10px;border-radius:4px;cursor:pointer}
+footer{color:var(--muted);font-size:13.5px;margin-top:40px;border-top:1px solid var(--rule);padding-top:14px;max-width:960px;margin-inline:auto}
+footer p{max-width:none}
+@media (max-width:600px){.hero{padding-block:32px 20px}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <span class="brand">Export Agent</span>
+  <a href="#how">How it works</a>
+  <a href="#reads">What it reads</a>
+  <a href="#draft">The draft</a>
+  <a href="#security">Security &amp; data</a>
+  <a href="#pilot">Pilot</a>
+  <a href="#request" class="cta">Request access</a>
+</header>
+
+<main>
+<div class="hero">
+  <div class="eyebrow">Free pilot · invitation only · 2026</div>
+  <h1>A buyer PO comes in. We draft the commercial invoice and packing list from it, and a person on your team approves before anything is used.</h1>
+  <p>The portal reads the purchase order, lists where your documents disagree, checks party names against the US OFAC SDN list, and drafts the e-mail you send to the buyer about the differences. Every output is a draft with a watermark. Nothing is sent anywhere by the system.</p>
+  <p class="who">For exporters and sellers who make shipping documents outside an ERP. Any country. English interface, Korean available.</p>
+  <div class="btns">
+    <a class="btn primary" href="request.html">Request pilot access</a>
+    <a class="btn secondary" href="guide.html">Read the customer guide</a>
+  </div>
+</div>
+
+<section id="how">
+  <h2>How it works</h2>
+  <p class="sub">Two ways to use it. In both, the output is a draft and a named person approves.</p>
+  <div class="cols">
+    <div class="card"><h3>You have only the PO</h3><p>Upload the buyer's PO. We draft the CI and PL from it, flag items with no HS code, screen the party names, and give you a record of what was checked.</p></div>
+    <div class="card"><h3>You already have an OC, CI or PL</h3><p>Upload them with the PO. We cross-check them against the PO and each other, field by field, and list every difference with a severity. The drafts are still produced; use or ignore them.</p></div>
+  </div>
+  <div class="ledger">
+    <div class="row"><div class="n">01</div><div><b>Documents read</b><span>Each file is recognised as PO, OC, CI or PL. Number, date and item count are shown so you can compare with the original.</span></div></div>
+    <div class="row"><div class="n">02</div><div><b>Discrepancies</b><span>HIGH when money or contract terms differ (drafts are blocked). MEDIUM when something needs a check. LOW for information.</span></div></div>
+    <div class="row"><div class="n">03</div><div><b>Compliance gate</b><span>Items without an HS code are listed; we never propose a code. Party names are screened against one US list. A hit is never cleared automatically: a person records "false positive" or "true match" with a reason, and a true match blocks approval.</span></div></div>
+    <div class="row"><div class="n">04</div><div><b>Drafts (CI / PL)</b><span>Excel files with a DRAFT watermark, or BLOCKED files when a HIGH difference remains.</span></div></div>
+    <div class="row"><div class="n">05</div><div><b>Buyer e-mail draft</b><span>Lists the open points between the PO and your OC. You copy, edit and send it yourself.</span></div></div>
+    <div class="row"><div class="n">06</div><div><b>Approval and audit log</b><span>A named approver ticks the checklist. Every upload, download, disposition and approval is logged, append-only.</span></div></div>
+  </div>
+  <p>The engine does not assign HS codes, does not file with any authority, and does not send e-mail. Screening is names only, against one US list. See Security &amp; data.</p>
+</section>
+
+<section id="reads">
+  <h2>What it reads today</h2>
+  <p class="sub">Limits first. We would rather you know this before you upload.</p>
+  <div class="tbl"><table>
+    <tr><th>Input</th><th>Status</th><th>What happens</th></tr>
+    <tr><td>Excel / CSV purchase orders, OC, CI, PL</td><td><span class="pill ok">supported</span></td><td>Read cell by cell in the layouts we have tested. After the pilot agreement is signed, upload one of your buyer's POs in the portal and we tell you within one business day which fields we read and which we miss.</td></tr>
+    <tr><td>Item master (CSV with <code>item_code</code>, optional <code>hs_code</code>)</td><td><span class="pill ok">supported</span></td><td>Used to fill missing HS codes from your own list.</td></tr>
+    <tr><td>PDF purchase orders</td><td><span class="pill warn">not supported in this pilot</span></td><td>Send Excel/CSV, or (after the agreement) upload the PDF in the portal and we key it in by hand within one business day.</td></tr>
+    <tr><td>Scanned or photographed documents</td><td><span class="pill bad">not readable</span></td><td>Keyed in by hand on request.</td></tr>
+  </table></div>
+  <p>No accuracy figure is published yet. Reading on customer layouts is being measured during the pilot, and we will tell pilot customers the result.</p>
+</section>
+
+<section id="draft">
+  <h2>What the draft contains</h2>
+  <p>The draft is an <code>.xlsx</code> in our own layout with a DRAFT watermark. Red cells are left empty for a person to fill. Your own invoice template, numbering and bank block are not supported today: you copy the checked values into your own form. The watermark is removed by you after approval.</p>
+  <p>Drafts are produced only when no HIGH difference remains. Otherwise you get BLOCKED files whose first row states the reason, so you can see what went wrong and upload a corrected set.</p>
+</section>
+
+<section id="security">
+  <h2>Security &amp; data</h2>
+  <p class="sub">Where your documents are, and where they go.</p>
+  <div class="cols">
+    <div class="card"><h3>Storage</h3><p>Pilot data is stored on a computer under the Provider's sole control at the Provider's premises in South Korea (not a data centre), reachable only through a Cloudflare tunnel. Cloudflare Access (allowed-e-mail list and one-time code in front of the login) is enabled before the first invite is issued; the date is recorded in your acceptance record. Encryption at rest is confirmed to you in writing before your first upload. A cloud region option is a decision pending; any move needs 14 days' e-mail notice to your signatory. Each customer's files sit in a separate workspace; another customer's shipment is not reachable from yours.</p></div>
+    <div class="card"><h3>No AI model sees your documents</h3><p>No document, or part of one, is sent to any AI or language model. The engine is rule-based. If we ever add AI-assisted reading, we tell you in writing before it applies to your workspace, name the provider and its retention terms, and you can decline.</p></div>
+    <div class="card"><h3>What leaves the server</h3><p>At most the party names, for screening, and only when the US ITA Consolidated Screening List API is enabled. In the default OFAC SDN mode the list is downloaded to the server and matched there.</p></div>
+    <div class="card"><h3>Sub-processors</h3><p>Cloudflare (network tunnel; login gate once enabled), the US OFAC / ITA list source (party names only, CSL mode), Google (Gmail support mailbox until a domain mailbox exists; Google Forms for the request form; your browser also loads fonts from Google Fonts). Any addition is notified by e-mail to your signatory 14 days before use.</p></div>
+    <div class="card"><h3>Deletion</h3><p>For 30 days after the pilot ends (the Return Window) you can ask for every file back, including your audit log. The workspace is deleted at the end of that window, or earlier on request. Backup copies purged within 60 days of deletion. The audit log is kept afterwards only if you instruct it, in pseudonymised form with document contents removed, and you can withdraw that instruction. Written confirmation of what was deleted and when.</p></div>
+    <div class="card"><h3>Access controls in place</h3><p>Per-customer folder isolation, bcrypt password hashing, signed 12-hour sessions, five failed logins lock for 15 minutes, CSRF protection, one-time invite links, upload type checks, append-only audit log, admin views banner-marked and logged.</p></div>
+  </div>
+  <div class="scope"><b>Screening scope.</b> Party names (buyer, consignee, notify party, bank) are checked against the US OFAC SDN list (or the US ITA Consolidated Screening List when enabled) by fuzzy name match. No EU, UK, UN or other lists. No address, country, vessel or ownership (50%) checks. A "no hits" result is not a sanctions clearance; destination embargo, licence need and end-use are not checked. The shipment page shows which list was used.</div>
+  <p>We do not claim SOC 2, ISO 27001, two-factor login, encryption at rest, an uptime figure or a penetration test. We are not a customs broker, forwarder, declarant or law firm.</p>
+</section>
+
+<section id="pilot">
+  <h2>Pilot and pricing</h2>
+  <p>The pilot is free for one month, three companies at a time, by invitation. No card, no fees. After the pilot, billing is per order (one shipment reference): about US$5 to US$8 per order, no monthly fee, no minimum. Re-uploads of the same order and failed runs are free. The exact figure is set with pilot customers before anyone is charged.</p>
+  <p>What we ask in return: once the pilot agreement is signed, one redacted buyer PO uploaded in the portal before you start, so we can tell you what we read; and a 20-minute call after your first three shipments.</p>
+  <p>The pilot is operated by one person. Our target for a human reply is one business day; a target, not a guarantee. If the pilot stops, you have 30 days to take every file back, and you get written confirmation once deletion, backups included, is complete.</p>
+  <div class="card warn"><h3>What this does not do (yet)</h3>
+    <ul><li>No customs or export declaration filing.</li><li>No bill of lading, certificate of origin, dangerous-goods declaration or SDS.</li><li>No order confirmation draft.</li><li>No HS classification; items without a code are flagged only.</li><li>No EU, UK, UN or other non-US list, no 50% rule, no embargo, licence or end-use check.</li><li>No outgoing e-mail; nothing is sent anywhere.</li><li>No PDF reading in this pilot; no custom templates.</li></ul></div>
+</section>
+
+<section id="request">
+  <h2>Request access</h2>
+  <p>No self sign-up yet. Tell us how many buyer POs you handle a month, where they ship, and in what format your last PO arrived. We reply within one business day. Before an invite, an authorised signatory at your company signs the pilot terms and the data processing addendum (drafts, pending lawyer review).</p>
+  <div class="btns">
+    <a class="btn primary" href="request.html">Open the request form</a>
+  </div>
+  <p style="margin-top:14px">Or e-mail us. Do not attach documents or POs; they are uploaded in the portal after the agreement is signed.</p>
+  <div class="mail"><code id="mail">exportagent.official@gmail.com</code><button type="button" id="copy-mail">Copy</button><span id="copied" hidden>Copied.</span></div>
+</section>
+</main>
+
+<footer>
+  <p>Export Agent pilot · operated by an individual provider in South Korea during the pilot · Pilot Terms, Privacy Notice and Data Processing Addendum are drafts pending lawyer review and are supplied with the invitation. Nothing on this page is legal, customs or compliance advice.</p>
+</footer>
+
+<script>
+(function(){
+  var btn=document.getElementById('copy-mail'),note=document.getElementById('copied'),mail=document.getElementById('mail');
+  btn.addEventListener('click',function(){
+    var done=function(){note.hidden=false;setTimeout(function(){note.hidden=true},2000)};
+    function select(){var r=document.createRange();r.selectNodeContents(mail);var s=window.getSelection();s.removeAllRanges();s.addRange(r)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(mail.textContent).then(done,select)}else{select()}
+  });
+})();
+</script>
+</body>
+</html>

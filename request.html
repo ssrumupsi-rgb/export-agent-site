@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Request access · Export Agent</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Source+Sans+3:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f7f7f4; --panel:#ffffff; --fg:#191c20; --muted:#5a6370; --line:#d6d8d2; --rule:#b9bcb4;
+  --accent:#1b5e3f; --accent-soft:#e4efe8; --warn-soft:#fbf1d8; --warn:#7a5a00; --bad-soft:#f8e3e0; --bad:#9a2c25;
+  --serif:"Source Serif 4",Georgia,serif; --sans:"Source Sans 3",system-ui,sans-serif; --mono:"Source Code Pro",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#141619; --panel:#1c1f24; --fg:#e7e6e1; --muted:#9aa3ad; --line:#30353c; --rule:#454b53;
+  --accent:#7fc8a2; --accent-soft:#17302a; --warn-soft:#3a2f12; --warn:#e6c35c; --bad-soft:#3c1d1a; --bad:#f09088; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#141619; --panel:#1c1f24; --fg:#e7e6e1; --muted:#9aa3ad; --line:#30353c; --rule:#454b53;
+  --accent:#7fc8a2; --accent-soft:#17302a; --warn-soft:#3a2f12; --warn:#e6c35c; --bad-soft:#3c1d1a; --bad:#f09088; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16.5px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px}
+a{color:var(--accent)}
+header.nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding-block:14px;border-bottom:1px solid var(--line);max-width:960px;margin:0 auto;font-size:14.5px}
+header.nav .brand{font-family:var(--serif);font-weight:600;font-size:19px;margin-right:auto}
+header.nav .brand a{color:inherit;text-decoration:none}
+header.nav a{color:var(--muted);text-decoration:none}
+header.nav a:hover{color:var(--fg)}
+main{max-width:960px;margin:0 auto;padding-block:48px 28px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4.2vw,40px);line-height:1.15;margin:0 0 16px;text-wrap:balance}
+p{margin:0 0 10px;max-width:70ch}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{display:inline-block;padding:10px 18px;border-radius:4px;text-decoration:none;font-weight:600;border:1px solid var(--accent)}
+.btn.primary{background:var(--accent);color:#fff}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.note{color:var(--muted);font-size:15px;margin-top:10px}
+.mail{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.mail code{font-family:var(--mono);background:var(--panel);border:1px solid var(--line);padding:4px 8px;border-radius:4px;user-select:all}
+.fallback{margin-top:28px;padding-top:18px;border-top:1px solid var(--rule)}
+footer{color:var(--muted);font-size:13.5px;margin-top:40px;border-top:1px solid var(--rule);padding-top:14px;max-width:960px;margin-inline:auto}
+footer p{max-width:none}
+</style>
+</head>
+<body>
+<header class="nav">
+  <span class="brand"><a href="index.html">Export Agent</a></span>
+  <a href="index.html">Home</a>
+  <a href="guide.html">Customer guide</a>
+</header>
+
+<main>
+  <h1>Request access</h1>
+  <p>No self sign-up yet. Tell us how many buyer POs you handle a month, where they ship, and in what format your last PO arrived. We reply within one business day.</p>
+
+  <div id="portal" hidden>
+    <div class="btns">
+      <a class="btn primary" id="portal-link" href="#">Open the request form</a>
+    </div>
+    <p class="note">The pilot portal runs on a temporary address that changes from time to time; this page always points to the current one.</p>
+  </div>
+
+  <div class="fallback">
+    <p>Or e-mail <a href="mailto:exportagent.official@gmail.com">exportagent.official@gmail.com</a> with: company, country, POs per month, and the format of your last buyer PO. Do not attach documents.</p>
+    <div class="mail"><code>exportagent.official@gmail.com</code></div>
+  </div>
+</main>
+
+<footer>
+  <p>Export Agent pilot · operated by an individual provider in South Korea during the pilot. Nothing on this page is legal, customs or compliance advice.</p>
+</footer>
+
+<script>
+(function(){
+  fetch('portal-url.txt',{cache:'no-store'}).then(function(r){
+    if(!r.ok){throw new Error('status '+r.status)}
+    return r.text();
+  }).then(function(t){
+    var base=(t||'').trim().split(/\s+/)[0]||'';
+    if(!/^https?:\/\//.test(base)){return}
+    base=base.replace(/\/+$/,'');
+    document.getElementById('portal-link').setAttribute('href',base+'/request-access');
+    document.getElementById('portal').hidden=false;
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>
