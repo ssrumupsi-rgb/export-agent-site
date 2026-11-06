@@ -137,10 +137,10 @@ footer p{max-width:none}
   <h2>Security &amp; data</h2>
   <p class="sub">Where your documents are, and where they go.</p>
   <div class="cols">
-    <div class="card"><h3>Storage</h3><p>Pilot data is stored on a computer under the Provider's sole control at the Provider's premises in South Korea (not a data centre), reachable only through a Cloudflare tunnel. Cloudflare Access (allowed-e-mail list and one-time code in front of the login) is enabled before the first invite is issued; the date is recorded in your acceptance record. Encryption at rest is confirmed to you in writing before your first upload. A cloud region option is a decision pending; any move needs 14 days' e-mail notice to your signatory. Each customer's files sit in a separate workspace; another customer's shipment is not reachable from yours.</p></div>
+    <div class="card"><h3>Storage</h3><p>Pilot data is stored on a computer under the Provider's sole control at the Provider's premises in South Korea (not a data centre), reachable only through a Cloudflare tunnel. There is no login gate in front of the portal beyond the portal's own login. The portal address is temporary and may change; your operator sends you the current address. Encryption at rest is confirmed to you in writing before your first upload. A cloud region option is a decision pending; any move needs 14 days' e-mail notice to your signatory. Each customer's files sit in a separate workspace; another customer's shipment is not reachable from yours.</p></div>
     <div class="card"><h3>No AI model sees your documents</h3><p>No document, or part of one, is sent to any AI or language model. The engine is rule-based. If we ever add AI-assisted reading, we tell you in writing before it applies to your workspace, name the provider and its retention terms, and you can decline.</p></div>
     <div class="card"><h3>What leaves the server</h3><p>At most the party names, for screening, and only when the US ITA Consolidated Screening List API is enabled. In the default OFAC SDN mode the list is downloaded to the server and matched there.</p></div>
-    <div class="card"><h3>Sub-processors</h3><p>Cloudflare (network tunnel; login gate once enabled), the US OFAC / ITA list source (party names only, CSL mode), Google (Gmail support mailbox until a domain mailbox exists; Google Forms for the request form; your browser also loads fonts from Google Fonts). Any addition is notified by e-mail to your signatory 14 days before use.</p></div>
+    <div class="card"><h3>Sub-processors</h3><p>Cloudflare (network tunnel), the US OFAC / ITA list source (party names only, CSL mode), Google (Gmail support mailbox; Google Forms for the request form; your browser also loads fonts from Google Fonts). Any addition is notified by e-mail to your signatory 14 days before use.</p></div>
     <div class="card"><h3>Deletion</h3><p>For 30 days after the pilot ends (the Return Window) you can ask for every file back, including your audit log. The workspace is deleted at the end of that window, or earlier on request. Backup copies purged within 60 days of deletion. The audit log is kept afterwards only if you instruct it, in pseudonymised form with document contents removed, and you can withdraw that instruction. Written confirmation of what was deleted and when.</p></div>
     <div class="card"><h3>Access controls in place</h3><p>Per-customer folder isolation, bcrypt password hashing, signed 12-hour sessions, five failed logins lock for 15 minutes, CSRF protection, one-time invite links, upload type checks, append-only audit log, admin views banner-marked and logged.</p></div>
   </div>
@@ -159,7 +159,7 @@ footer p{max-width:none}
 
 <section id="request">
   <h2>Request access</h2>
-  <p>No self sign-up yet. Tell us how many buyer POs you handle a month, where they ship, and in what format your last PO arrived. We reply within one business day. Before an invite, an authorised signatory at your company signs the pilot terms and the data processing addendum (drafts, pending lawyer review).</p>
+  <p>No self sign-up yet. Tell us how many buyer POs you handle a month, where they ship, and in what format your last PO arrived. We reply within one business day. Before an invite, an authorised signatory at your company signs the pilot terms and the data processing addendum (drafts, not reviewed by a lawyer; the provider proceeds without lawyer review and you are invited to have your own counsel review before signing).</p>
   <div class="btns">
     <a class="btn primary" href="request.html">Open the request form</a>
   </div>
@@ -169,7 +169,7 @@ footer p{max-width:none}
 </main>
 
 <footer>
-  <p>Export Agent pilot · operated by an individual provider in South Korea during the pilot · Pilot Terms, Privacy Notice and Data Processing Addendum are drafts pending lawyer review and are supplied with the invitation. Nothing on this page is legal, customs or compliance advice.</p>
+  <p>Export Agent pilot · operated by an individual provider in South Korea during the pilot · Pilot Terms, Privacy Notice and Data Processing Addendum are drafts not reviewed by a lawyer (the provider proceeds without lawyer review) and are supplied with the invitation. Nothing on this page is legal, customs or compliance advice.</p>
 </footer>
 
 <script>
