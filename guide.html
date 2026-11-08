@@ -127,19 +127,19 @@ html[lang="en"] span[data-lang="en"],html[lang="ko"] span[data-lang="ko"]{displa
 
 <h2 id="what"><span data-lang="en">1 · What this does for you</span><span data-lang="ko">1 · 이 포털이 하는 일</span></h2>
 <div data-lang="en">
-<p>You upload the buyer's purchase order (PO). The portal reads it, drafts a commercial invoice (CI) and packing list (PL), screens the party names against one US sanctions list, and gives you a draft e-mail to the buyer and a record of who approved what. It does not draft an order confirmation (OC).</p>
+<p>You upload the buyer's purchase order (PO). The portal reads it, drafts every following document from it (order confirmation (OC) unless you upload your own, commercial invoice (CI), packing list (PL) and shipping instruction (SI)), screens the party names against one US sanctions list, lists the values it could not take from any document ("What we still need from you"), and gives you a draft e-mail to the buyer and a record of who approved what.</p>
 <div class="ship">
-  <div><b>You have only the PO</b><span>The portal drafts the CI and PL as an <code>.xlsx</code> in our layout with a DRAFT watermark. Red cells stay empty for a person to fill. Your own template, numbering and bank block are not supported in this pilot.</span></div>
-  <div><b>You already have OC, CI or PL</b><span>Upload them with the PO. The portal cross-checks them against the PO and each other and lists where they disagree. Drafts are still produced; use or ignore them.</span></div>
+  <div><b>You have only the PO</b><span>The portal drafts the OC, CI, PL and SI. Each draft is an <code>.xlsx</code> in our own layout with a DRAFT watermark; red cells are left empty for a person to fill, and section 4b lists them with the reason. Your own invoice template, numbering and bank block are not supported in this pilot: you copy the checked values into your own form.</span></div>
+  <div><b>You already have an OC, CI or PL</b><span>Upload them with the PO. The portal cross-checks them against the PO and each other and lists where they disagree. If you upload an OC, no OC is drafted (the page says so); the CI, PL and SI drafts are still produced, and the SI takes packages and weights from your PL; use them or ignore them.</span></div>
 </div>
 <div class="box warn"><div class="t">Screening scope</div>Party names (buyer, consignee, notify party, bank) are checked against the US OFAC SDN list (or the US ITA Consolidated Screening List when enabled) by fuzzy name match. No EU, UK, UN or other lists. No address, country, vessel or ownership (50%) checks. A "no hits" result is not a sanctions clearance; destination embargo, licence need and end-use are not checked. Your company's own screening obligations are unchanged.</div>
 <div class="box"><div class="t">Where your documents go</div>Nothing you upload is sent to any AI or language model. The engine is rule-based. At most the party names leave the server, for screening, and only when the US ITA list API is enabled; in the default OFAC SDN mode the list is downloaded to the server and matched there. If we ever add AI-assisted reading, we tell you in writing before it applies to your workspace, name the provider and its retention terms, and you can decline.</div>
 </div>
 <div data-lang="ko">
-<p>바이어의 구매주문서(PO)를 올립니다. 포털이 PO를 읽고, 상업송장(CI)과 포장명세서(PL) 초안을 만들고, 당사자 이름을 미국 제재 리스트 한 곳과 대조하고, 바이어에게 보낼 메일 초안과 누가 무엇을 승인했는지 기록을 줍니다. 주문확인서(OC) 초안은 만들지 않습니다.</p>
+<p>바이어의 구매주문서(PO)를 올립니다. 포털이 PO를 읽고, 뒤따르는 서류 전부 — 주문확인서(OC, 직접 올리지 않은 경우), 상업송장(CI), 포장명세서(PL), 선적지시서(SI) — 의 초안을 만들고, 당사자 이름을 미국 제재 리스트 한 곳과 대조하고, 어느 서류에서도 가져올 수 없는 값의 목록("아직 알려 주셔야 하는 값")과 바이어에게 보낼 메일 초안, 누가 무엇을 승인했는지 기록을 줍니다.</p>
 <div class="ship">
-  <div><b>PO만 있을 때</b><span>CI·PL 초안을 우리 양식의 <code>.xlsx</code>로 만듭니다. DRAFT 워터마크가 있고 빨간 셀은 비어 있어 사람이 채웁니다. 귀사 송장 양식·번호 체계·은행 정보란은 이번 파일럿에서 지원하지 않습니다.</span></div>
-  <div><b>OC·CI·PL이 이미 있을 때</b><span>PO와 함께 올리세요. 서로 다른 곳을 표시합니다. 초안도 함께 나오니 쓰거나 무시하면 됩니다.</span></div>
+  <div><b>PO만 있을 때</b><span>OC·CI·PL·SI 초안을 만듭니다. 초안은 우리 양식의 <code>.xlsx</code>이고 DRAFT 워터마크가 있으며 빨간 셀은 비어 있어 사람이 채웁니다. 4b 구역에 그 셀의 목록과 이유가 있습니다. 귀사 송장 양식·번호 체계·은행 정보란은 이번 파일럿에서 지원하지 않습니다.</span></div>
+  <div><b>OC·CI·PL이 이미 있을 때</b><span>PO와 함께 올리세요. 서로 다른 곳을 표시합니다. OC를 올렸으면 OC 초안은 만들지 않습니다(화면에 표시). CI·PL·SI 초안은 그대로 나오고, SI는 올린 PL의 포장 수·중량을 씁니다. 쓰거나 무시하면 됩니다.</span></div>
 </div>
 <div class="box warn"><div class="t">스크리닝 범위</div>당사자 이름(바이어·수하인·통지처·은행)을 미국 OFAC SDN 리스트(설정 시 US ITA Consolidated Screening List)와 이름 유사도로만 대조합니다. EU·UK·UN 등 다른 리스트, 주소·국가·선박·지분(50%) 확인은 없습니다. "no hits"는 제재 해제가 아니며, 목적지 금수·허가 필요 여부·최종 용도는 확인하지 않습니다. 귀사의 자체 스크리닝 의무는 그대로입니다.</div>
 <div class="box"><div class="t">서류는 어디로 가나</div>올린 서류는 어떤 AI·언어 모델에도 보내지지 않습니다. 규칙 기반 엔진입니다. 서버 밖으로 나가는 것은 스크리닝용 당사자 이름뿐이고, 그것도 US ITA API를 켠 경우에만 나갑니다. AI 읽기를 추가하게 되면 적용 전에 서면으로 알리고, 거절할 수 있습니다.</div>
@@ -218,20 +218,22 @@ html[lang="en"] span[data-lang="en"],html[lang="ko"] span[data-lang="ko"]{displa
 <div class="see"><b>보여야 하는 화면</b>몇 초마다 새로고침되는 <span class="ui">처리 중…</span>. 고객 서류 기준 소요 시간은 아직 측정하지 않았습니다. 리스트 발행일은 표시되지 않으니 선적 당일에 다시 확인하세요.</div></div>
 
 <h3 id="s6"><span class="n">6</span><span data-lang="en">Read the shipment page</span><span data-lang="ko">선적 화면 읽기</span></h3>
-<div data-lang="en"><p>Six numbered sections, top to bottom.</p>
+<div data-lang="en"><p>Six numbered sections, top to bottom (section 4 has a 4b).</p>
 <div class="tbl"><table><tr><th>#</th><th>Section</th><th>What to check</th></tr>
 <tr><td>1</td><td><span class="ui">Documents read</span></td><td>One row per file: Type, File, Number, Date, Items, SHA-256 (first 12). Confirm each file was recognised as the right type and compare number, date and item count with the original. Unused files are under <span class="ui">Skipped (unsupported or unrecognised)</span>. <span class="ui">Pairs cross-checked</span> lists which documents were compared.</td></tr>
 <tr><td>2</td><td><span class="ui">Discrepancies</span></td><td>Every place two documents disagree. HIGH = money or contract terms differ, drafts blocked. MEDIUM = needs a check. LOW = information. Filter with <span class="ui">Show</span>.</td></tr>
 <tr><td>3</td><td><span class="ui">Compliance gate</span></td><td><span class="ui">3a. Items without HS code</span>: items with no HS code anywhere; the portal never proposes one. <span class="ui">3b. Restricted-party screening</span>: each Party, Roles, Hits, Best match. <span class="ui">Screening source</span> names the list used; the publication date is not shown. Pill: <span class="pill ok">no hits</span> <span class="pill warn">needs human disposition</span> <span class="pill ok">disposed</span> <span class="pill bad">blocked</span>. This gate does not check destination embargoes, licence requirements, end use or end user.</td></tr>
-<tr><td>4</td><td><span class="ui">Drafts (CI / PL)</span></td><td>Download links. Yellow banner = DRAFT, red banner = BLOCKED. See step 8.</td></tr>
+<tr><td>4</td><td><span class="ui">Drafts (OC / CI / PL / SI)</span></td><td>Download links for every draft (the OC only when you did not upload one; otherwise a note names your OC file). Yellow banner = DRAFT, red banner = BLOCKED. See step 8.</td></tr>
+<tr><td>4b</td><td><span class="ui">What we still need from you</span></td><td>Every red cell in the drafts, grouped by document, with the field and why it is needed (for example port of loading, marks &amp; numbers, your own OC number). Supply these before approval.</td></tr>
 <tr><td>5</td><td><span class="ui">Buyer e-mail draft</span></td><td>See step 9.</td></tr>
 <tr><td>6</td><td><span class="ui">Approval checklist</span></td><td>See step 10.</td></tr></table></div></div>
-<div data-lang="ko"><p>위에서 아래로 번호가 붙은 6개 구역입니다.</p>
+<div data-lang="ko"><p>위에서 아래로 번호가 붙은 6개 구역입니다(4 구역에는 4b가 있습니다).</p>
 <div class="tbl"><table><tr><th>#</th><th>구역</th><th>확인할 것</th></tr>
 <tr><td>1</td><td><span class="ui">읽은 서류</span></td><td>종류, 파일, 번호, 날짜, 품목 수, SHA-256 (앞 12자리). 원본과 비교합니다. 못 쓴 파일은 <span class="ui">건너뜀 (지원하지 않거나 인식 못 함)</span>.</td></tr>
 <tr><td>2</td><td><span class="ui">불일치</span></td><td>심각도 HIGH(돈·계약 조건, 초안 차단)·MEDIUM·LOW. <span class="ui">보기</span>로 거릅니다.</td></tr>
 <tr><td>3</td><td><span class="ui">컴플라이언스 게이트</span></td><td><span class="ui">3a. HS 코드 없는 품목</span>(사람이 정함), <span class="ui">3b. 제재 리스트 스크리닝</span>의 당사자·역할·Hit·가장 비슷한 항목. <span class="ui">스크리닝 출처</span>에 사용한 리스트가 보이고 발행일은 표시되지 않습니다. 표시: no hits · needs human disposition · 판정 완료 · <span class="pill bad">차단</span>. 목적지 금수·허가·최종 용도는 확인하지 않습니다.</td></tr>
-<tr><td>4</td><td><span class="ui">초안 (CI / PL)</span></td><td>다운로드 링크. 노란 배너 = DRAFT, 빨간 배너 = BLOCKED. 8단계 참고.</td></tr>
+<tr><td>4</td><td><span class="ui">초안 (OC / CI / PL / SI)</span></td><td>모든 초안의 다운로드 링크(OC는 올리지 않은 경우만, 올렸으면 귀사 OC 파일명을 표시). 노란 배너 = DRAFT, 빨간 배너 = BLOCKED. 8단계 참고.</td></tr>
+<tr><td>4b</td><td><span class="ui">아직 알려 주셔야 하는 값</span></td><td>초안의 빨간 셀 전부를 서류별로 묶어 필드와 필요한 이유를 보여 줍니다(예: 선적항, 화인, 귀사 OC 번호). 승인 전에 알려 주세요.</td></tr>
 <tr><td>5</td><td><span class="ui">바이어 메일 초안</span></td><td>9단계 참고.</td></tr>
 <tr><td>6</td><td><span class="ui">승인 체크리스트</span></td><td>10단계 참고.</td></tr></table></div></div>
 
@@ -304,7 +306,7 @@ html[lang="en"] span[data-lang="en"],html[lang="ko"] span[data-lang="ko"]{displa
 <div data-lang="en"><ul>
 <li>It does not file a customs or export declaration.</li>
 <li>It does not create or check a bill of lading, certificate of origin, dangerous-goods declaration or SDS.</li>
-<li>It does not draft an order confirmation.</li>
+<li>It does not draft a bill of lading or certificate of origin; the shipping instruction lists them as documents to obtain.</li>
 <li>It does not assign HS codes; it only flags items without one.</li>
 <li>It does not check EU, UK, UN or any non-US list, ownership (50% rule), destination embargoes, licence requirements or end use. A hit disposition is your company's record, not a legal opinion.</li>
 <li>It does not send e-mails or documents anywhere.</li>
@@ -312,7 +314,7 @@ html[lang="en"] span[data-lang="en"],html[lang="ko"] span[data-lang="ko"]{displa
 <li>It does not use any AI or language model.</li></ul></div>
 <div data-lang="ko"><ul>
 <li>수출신고·세관 신고를 하지 않습니다. B/L·원산지증명서·위험물 신고서·SDS를 만들거나 대조하지 않습니다.</li>
-<li>주문확인서(OC) 초안을 만들지 않습니다.</li>
+<li>B/L·원산지증명서 초안은 만들지 않습니다. 선적지시서(SI)에 받아야 할 서류로 표시만 합니다.</li>
 <li>HS 코드를 정하지 않습니다. 없는 품목을 표시만 합니다.</li>
 <li>EU·UK·UN 등 미국 외 리스트, 지분(50%), 목적지 금수, 허가 필요 여부, 최종 용도를 확인하지 않습니다. Hit 판정은 귀사의 기록이지 법률 의견이 아닙니다.</li>
 <li>메일이나 서류를 어디에도 보내지 않습니다.</li>

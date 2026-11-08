@@ -87,8 +87,8 @@ footer p{max-width:none}
 <main>
 <div class="hero">
   <div class="eyebrow">Free pilot · invitation only · 2026</div>
-  <h1>A buyer PO comes in. We draft the commercial invoice and packing list from it, and a person on your team approves before anything is used.</h1>
-  <p>The portal reads the purchase order, lists where your documents disagree, checks party names against the US OFAC SDN list, and drafts the e-mail you send to the buyer about the differences. Every output is a draft with a watermark. Nothing is sent anywhere by the system.</p>
+  <h1>A buyer PO comes in. We draft the order confirmation, commercial invoice, packing list and shipping instruction from it, and a person on your team approves before anything is used.</h1>
+  <p>The portal reads the purchase order, lists where your documents disagree, checks party names against the US OFAC SDN list, tells you which values it still needs from you, and drafts the e-mail you send to the buyer about the differences. Every output is a draft with a watermark. Nothing is sent anywhere by the system.</p>
   <p class="who">For exporters and sellers who make shipping documents outside an ERP. Any country. English interface, Korean available.</p>
   <div class="btns">
     <a class="btn primary" href="request.html">Request pilot access</a>
@@ -100,14 +100,14 @@ footer p{max-width:none}
   <h2>How it works</h2>
   <p class="sub">Two ways to use it. In both, the output is a draft and a named person approves.</p>
   <div class="cols">
-    <div class="card"><h3>You have only the PO</h3><p>Upload the buyer's PO. We draft the CI and PL from it, flag items with no HS code, screen the party names, and give you a record of what was checked.</p></div>
-    <div class="card"><h3>You already have an OC, CI or PL</h3><p>Upload them with the PO. We cross-check them against the PO and each other, field by field, and list every difference with a severity. The drafts are still produced; use or ignore them.</p></div>
+    <div class="card"><h3>You have only the PO</h3><p>Upload the buyer's PO. We draft the OC, CI, PL and SI from it, list the values no document gave us ("What we still need from you"), flag items with no HS code, screen the party names, and give you a record of what was checked.</p></div>
+    <div class="card"><h3>You already have an OC, CI or PL</h3><p>Upload them with the PO. We cross-check them against the PO and each other, field by field, and list every difference with a severity. If you upload an OC, no OC is drafted; the CI, PL and SI drafts are still produced; use or ignore them.</p></div>
   </div>
   <div class="ledger">
     <div class="row"><div class="n">01</div><div><b>Documents read</b><span>Each file is recognised as PO, OC, CI or PL. Number, date and item count are shown so you can compare with the original.</span></div></div>
     <div class="row"><div class="n">02</div><div><b>Discrepancies</b><span>HIGH when money or contract terms differ (drafts are blocked). MEDIUM when something needs a check. LOW for information.</span></div></div>
     <div class="row"><div class="n">03</div><div><b>Compliance gate</b><span>Items without an HS code are listed; we never propose a code. Party names are screened against one US list. A hit is never cleared automatically: a person records "false positive" or "true match" with a reason, and a true match blocks approval.</span></div></div>
-    <div class="row"><div class="n">04</div><div><b>Drafts (CI / PL)</b><span>Excel files with a DRAFT watermark, or BLOCKED files when a HIGH difference remains.</span></div></div>
+    <div class="row"><div class="n">04</div><div><b>Drafts (OC / CI / PL / SI)</b><span>Excel files with a DRAFT watermark, or BLOCKED files when a HIGH difference remains. The OC is drafted only when you did not upload one. A "What we still need from you" list names every red cell, by document, with the reason.</span></div></div>
     <div class="row"><div class="n">05</div><div><b>Buyer e-mail draft</b><span>Lists the open points between the PO and your OC. You copy, edit and send it yourself.</span></div></div>
     <div class="row"><div class="n">06</div><div><b>Approval and audit log</b><span>A named approver ticks the checklist. Every upload, download, disposition and approval is logged, append-only.</span></div></div>
   </div>
@@ -154,7 +154,7 @@ footer p{max-width:none}
   <p>What we ask in return: once the pilot agreement is signed, one redacted buyer PO uploaded in the portal before you start, so we can tell you what we read; and a 20-minute call after your first three shipments.</p>
   <p>The pilot is operated by one person. Our target for a human reply is one business day; a target, not a guarantee. If the pilot stops, you have 30 days to take every file back, and you get written confirmation once deletion, backups included, is complete.</p>
   <div class="card warn"><h3>What this does not do (yet)</h3>
-    <ul><li>No customs or export declaration filing.</li><li>No bill of lading, certificate of origin, dangerous-goods declaration or SDS.</li><li>No order confirmation draft.</li><li>No HS classification; items without a code are flagged only.</li><li>No EU, UK, UN or other non-US list, no 50% rule, no embargo, licence or end-use check.</li><li>No outgoing e-mail; nothing is sent anywhere.</li><li>No PDF reading in this pilot; no custom templates.</li></ul></div>
+    <ul><li>No customs or export declaration filing.</li><li>No bill of lading or certificate of origin draft; the shipping instruction lists them as documents to obtain. No dangerous-goods declaration or SDS.</li><li>No HS classification; items without a code are flagged only.</li><li>No EU, UK, UN or other non-US list, no 50% rule, no embargo, licence or end-use check.</li><li>No outgoing e-mail; nothing is sent anywhere.</li><li>No PDF reading in this pilot; no custom templates.</li></ul></div>
 </section>
 
 <section id="request">
